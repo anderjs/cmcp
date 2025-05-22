@@ -50,7 +50,7 @@ docker-compose up --build
 ```json
 {
   "email": "admin@cmcp.com",
-  "password": "admin1admin"
+  "password": "admincmcp"
 }
 ```
 
