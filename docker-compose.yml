@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+
+  # ---------------------------------------
+  # Servicio PostgreSQL
+  # ---------------------------------------
+  postgres:
+    image: postgres:17
+    container_name: cmcp_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: "fastapi"
+      POSTGRES_PASSWORD: "fastapi"
+      POSTGRES_DB: "fastapi"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ---------------------------------------
+  # Servicio API (NestJS)
+  # ---------------------------------------
+  api:
+    build:
+      context: ./cmcp-server
+      dockerfile: Dockerfile
+    container_name: cmcp_api
+    restart: on-failure
+    depends_on:
+      - postgres
+    environment:
+      # Ajusta estas variables según tu código y .env
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: fastapi
+      DATABASE_PASSWORD: fastapi
+      DATABASE_NAME: fastapi
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+
+  # ---------------------------------------
+  # Servicio Frontend (React + Vite)
+  # ---------------------------------------
+  client:
+    build:
+      context: ./cmcp-client
+      dockerfile: Dockerfile
+    container_name: cmcp_client
+    restart: on-failure
+    depends_on:
+      - api
+    environment:
+      # Si tu front necesita apuntar a la API
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./cmcp-client:/usr/src/app
+      - /usr/src/app/node_modules
+    
+
+volumes:
+  postgres_data:
+    driver: local
