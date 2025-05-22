@@ -30,7 +30,7 @@ cmcp-books/
 
 ```bash
 git clone https://github.com/anderjs/cmcp.git
-cd cmcp-books
+cd cmcp
 ```
 
 2. **Levanta los servicios**
