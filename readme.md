@@ -29,7 +29,7 @@ cmcp-books/
 1. **Clona el repositorio**
 
 ```bash
-git clone https://github.com/anderjs/cmcp-books.git
+git clone https://github.com/anderjs/cmcp.git
 cd cmcp-books
 ```
 
